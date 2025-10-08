@@ -1,0 +1,19 @@
+MariaDB
+*.ibd
+*.frm
+*.MYD
+*.MYI
+*.log
+Data files
+*.csv
+*.dat
+!data/openflights/.gitkeep
+OS
+.DS_Store
+Thumbs.db
+IDE
+.vscode/
+.idea/
+*.swp
+Credentials
+config/credentials.conf
