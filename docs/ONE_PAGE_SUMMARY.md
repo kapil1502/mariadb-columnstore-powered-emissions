@@ -227,4 +227,4 @@ sudo ./scripts/install_mariadb.sh
 
 *"Not just code that works - code that teaches."*
 
-**Ready to see 25x performance yourself? → [github.com/yourusername/mariadb-columnstore-powered-emissions](#)**
+**Ready to see 25x performance yourself? → [github.com/kapil1502/mariadb-columnstore-powered-emissions](#)**
