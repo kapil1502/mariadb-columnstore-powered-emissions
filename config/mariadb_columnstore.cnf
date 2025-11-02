@@ -1,0 +1,117 @@
+# MariaDB ColumnStore Configuration
+# Optimized for Development/Testing
+
+[mariadb]
+# Basic Settings
+port = 3306
+datadir = /var/lib/mysql
+socket = /var/run/mysqld/mysqld.sock
+
+# Character Set
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+
+# ============================================
+# COLUMNSTORE SPECIFIC SETTINGS
+# ============================================
+
+# Load ColumnStore plugin
+plugin-load-add = ha_columnstore.so
+
+[columnstore]
+# Compression Algorithm
+# 0 = None (fastest writes, largest size)
+# 1 = Snappy (fast, moderate compression)
+# 2 = LZ4 (balanced - RECOMMENDED) ⭐
+# 3 = ZLIB (slow, highest compression)
+columnstore_compression_type = 2
+
+# Optimize bulk inserts for ColumnStore
+# ON = Use optimized batch insert path (10-20x faster) ⭐
+columnstore_use_import_for_batchinsert = ON
+
+# Cache size for column segments (adjust based on RAM)
+# Recommended: 25-50% of available RAM
+# Default: 2GB for development
+columnstore_cache_size = 2G
+
+# Parallel query threads
+# Set to number of CPU cores (max 32)
+# More threads = faster aggregations ⭐
+columnstore_disk_threads = 4
+
+# String table threshold (bytes)
+# Strings longer than this use separate storage
+# Default: 20 bytes works for most cases
+infinidb_stringtable_threshold = 20
+
+# ============================================
+# GENERAL PERFORMANCE SETTINGS
+# ============================================
+
+# Connection Settings
+max_connections = 151
+max_allowed_packet = 256M
+#connect_timeout = 10
+wait_timeout=28800
+max_allowed_packet=1G
+
+# Thread Cache
+thread_cache_size = 8
+thread_stack = 256K
+
+# Table Settings
+table_open_cache = 4000
+table_definition_cache = 2000
+
+# Temporary Tables
+tmp_table_size = 256M
+max_heap_table_size = 256M
+
+# ============================================
+# INNODB SETTINGS (for hybrid architecture)
+# ============================================
+
+# Buffer Pool (25% of RAM for development)
+innodb_buffer_pool_size = 1G
+innodb_buffer_pool_instances = 4
+
+# Log Files
+innodb_log_file_size = 256M
+innodb_log_buffer_size = 16M
+innodb_flush_log_at_trx_commit = 2
+innodb_flush_method = O_DIRECT
+
+# I/O Settings
+innodb_io_capacity = 2000
+innodb_io_capacity_max = 4000
+innodb_read_io_threads = 4
+innodb_write_io_threads = 4
+
+# ============================================
+# QUERY CACHE (disabled for modern MariaDB)
+# ============================================
+query_cache_type = 0
+query_cache_size = 0
+
+# ============================================
+# LOGGING (useful for development)
+# ============================================
+
+# Error Log
+log_error = /var/log/mysql/error.log
+
+# Slow Query Log
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql/slow-query.log
+long_query_time = 2
+log_queries_not_using_indexes = 0
+
+# General Log (disable in production)
+general_log = 0
+general_log_file = /var/log/mysql/general.log
+
+[client]
+port = 3306
+socket = /var/run/mysqld/mysqld.sock
+default-character-set = utf8mb4

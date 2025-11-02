@@ -16,4 +16,6 @@ IDE
 .idea/
 *.swp
 Credentials
+venv/
+.env.example
 config/credentials.conf
